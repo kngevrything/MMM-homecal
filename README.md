@@ -1,6 +1,8 @@
 # MMM-homecal
 
-A MagicMirror² module that displays calendar events from the default `calendar` module, with enhanced formatting for NBA games and garbage/recycling pickups. Supports team logos, icon-based rendering for waste types, and layout grouping by calendar type.
+A MagicMirror² module that displays calendar events from the default `calendar` module, with enhanced 
+formatting for NBA games and garbage/recycling pickups. Supports team logos, icon-based rendering for 
+waste types, and layout grouping by calendar type.
 
 ---
 
@@ -28,7 +30,8 @@ This module makes several assumptions about input data and configuration in orde
 
 ### 📅 Calendar Event Structure
 
-- Events must be received from the default MagicMirror `calendar` module via the `CALENDAR_EVENTS` notification.
+- Events must be received from the default MagicMirror `calendar` module via the `CALENDAR_EVENTS`
+  notification.
 - Each event must include the following properties:
   - `calendarName` – used to map events to the matching calendar config.
   - `title` – used to generate text or icons for the event.
