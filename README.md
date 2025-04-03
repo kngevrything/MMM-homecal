@@ -23,7 +23,7 @@ Clone this repo into your `MagicMirror/modules/` directory:
 ```bash
 cd ~/MagicMirror/modules
 git clone https://github.com/kngevrything/MMM-homecal.git
-
+```
 ## ⚠️ Assumptions and Limitations
 
 This module makes several assumptions about input data and configuration in order to function correctly.
