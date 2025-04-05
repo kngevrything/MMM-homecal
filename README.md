@@ -3,9 +3,7 @@
 A MagicMirror² module that displays calendar events from the default `calendar` module, with enhanced 
 formatting for NBA games and garbage/recycling pickups. Supports team logos, icon-based rendering for 
 waste types, and layout grouping by calendar type.
-
----
-
+  
 ## 📦 Features
 
 - Groups events by day with customizable layout sections (top, middle, bottom)
@@ -24,10 +22,20 @@ Clone this repo into your `MagicMirror/modules/` directory:
 cd ~/MagicMirror/modules
 git clone https://github.com/kngevrything/MMM-homecal.git
 ```
+
 ## ⚠️ Assumptions and Limitations
 
 This module makes several assumptions about input data and configuration in order to function correctly.
 
+### 🔒 Known Limitation: NBA Calendar Feeds Block Node.js Requests
+
+Some external calendars (like the NBA feed) reject requests from non-browser user agents.  
+This module assumes the upstream calendar module can fetch the feed successfully. If not, you may need to:
+- Modify the user-agent header in your calendar fetcher (not recommended), or
+- Use a proxy server or forked calendar module with custom headers, or
+- Use a purpose-built fetcher module for feeds that require custom headers
+
+  
 ### 📅 Calendar Event Structure
 
 - Events must be received from the default MagicMirror `calendar` module via the `CALENDAR_EVENTS`
@@ -103,12 +111,3 @@ This module makes several assumptions about input data and configuration in orde
   https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css
   ```
 - `moment.js` is required and used for all date manipulation and formatting.
-
-
-### 🔒 Known Limitation: NBA Calendar Feeds Block Node.js Requests
-
-Some external calendars (like the NBA feed) reject requests from non-browser user agents.  
-This module assumes the upstream calendar module can fetch the feed successfully. If not, you may need to:
-- Modify the user-agent header in your calendar fetcher (not recommended), or
-- Use a proxy server or forked calendar module with custom headers, or
-- Use a purpose-built fetcher module for feeds that require custom headers
