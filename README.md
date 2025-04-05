@@ -31,10 +31,22 @@ This module makes several assumptions about input data and configuration in orde
 
 Some external calendars (like the NBA feed) reject requests from non-browser user agents.  
 This module assumes the upstream calendar module can fetch the feed successfully. If not, you may need to:
-- Modify the user-agent header in your calendar fetcher (not recommended), or
+- Modify the user-agent header in your calendar fetcher
 - Use a proxy server or forked calendar module with custom headers, or
 - Use a purpose-built fetcher module for feeds that require custom headers
 
+Here is a sample of the change for changing the header in the calendar fetcher
+```javascript
+const fetchCalendar = () => {
+  clearTimeout(reloadTimer);
+  reloadTimer = null;
+  const nodeVersion = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
+  let httpsAgent = null;
+  let headers = {
+    //"User-Agent": `Mozilla/5.0 (Node.js ${nodeVersion}) MagicMirror/${global.version}`
+    "User-Agent": "Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
+  };
+```
   
 ### 📅 Calendar Event Structure
 
