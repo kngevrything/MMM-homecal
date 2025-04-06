@@ -1,3 +1,4 @@
+
 # MMM-homecal
 
 A MagicMirror² module that displays calendar events from the default `calendar` module, with enhanced 
@@ -20,8 +21,82 @@ Clone this repo into your `MagicMirror/modules/` directory:
 
 ```bash
 cd ~/MagicMirror/modules
-git clone https://github.com/kngevrything/MMM-homecal.git
+git clone https://github.com/kngevrything/MMM-homecal.git 
 ```
+
+---
+
+## 📅 Required Calendar Module Setup
+
+This module **depends on the default MagicMirror `calendar` module** to fetch and broadcast events. Even if you're not displaying the calendar visually, it **must be defined** in your `config.js`, and the `broadcastEvents` flag must be enabled.
+
+### ⚙️ How It Works
+
+- The `calendar` module fetches `.ics` feeds and emits `CALENDAR_EVENTS`.
+- `MMM-homecal` listens for these events and renders them.
+- Each calendar in the default calendar module must:
+  - Include a unique `name`
+  - Match a calendar config entry in `MMM-homecal`
+  - Set `broadcastEvents: true`
+
+### ✅ Default Calendar Module Example
+
+```js
+{
+  module: "calendar",
+  broadcastEvents: true,
+  config: {
+    maximumNumberOfDays: 7,
+    calendars: [
+      {
+        name: "blazers",
+        url: "https://cdn.nba.com/teams/calendars/blazers.ics"
+      },
+      {
+        name: "garbage",
+        url: "https://your-waste-service.ics"
+      },
+    ]
+  }
+}
+```
+
+---
+
+## 🔧 `MMM-homecal` Configuration Format
+
+Each calendar listed in the default calendar module must also be defined in the `MMM-homecal` config using the same `name`.
+
+| Key           | Type    | Description                                               |
+|---------------|---------|-----------------------------------------------------------|
+| `name`        | string  | Must match the `name` from the default calendar config    |
+| `cal_location`| string  | `"top"`, `"middle"` (default), or `"bottom"`              |
+| `use_icons`   | boolean | Whether to use icons (true) or just text (false)          |
+
+### ✅ Example: `MMM-homecal` Configuration
+
+```js
+{
+  module: "MMM-homecal",
+  position: "middle_center",
+  config: {
+    calendars: [
+      {
+        name: "blazers",
+        cal_location: "middle",
+        use_icons: false
+      },
+      {
+        name: "garbage",
+        cal_location: "bottom",
+        use_icons: true
+      },
+    ]
+  }
+}
+```
+
+---
 
 ## ⚠️ Assumptions and Limitations
 
@@ -35,7 +110,7 @@ This module assumes the upstream calendar module can fetch the feed successfully
 - Use a proxy server or forked calendar module with custom headers, or
 - Use a purpose-built fetcher module for feeds that require custom headers
 
-Here is a sample of the change for changing the header in the calendar fetcher
+Here is a sample of the change for changing the header in the calendar fetcher:
 ```javascript
 const fetchCalendar = () => {
   clearTimeout(reloadTimer);
@@ -46,6 +121,10 @@ const fetchCalendar = () => {
     //"User-Agent": `Mozilla/5.0 (Node.js ${nodeVersion}) MagicMirror/${global.version}`
     "User-Agent": "Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"
   };
+
+  // ... rest of the method
+
+};
 ```
   
 ### 📅 Calendar Event Structure
@@ -63,9 +142,9 @@ const fetchCalendar = () => {
 - Calendars must be defined in your `config.js` with a unique `name` matching the event’s `calendarName`.
 - Optional per-calendar configuration:
   - `cal_location` – where events display for this calendar: `"top"`, `"middle"`, or `"bottom"` (default: `"middle"`).
-  - `use_icons` – `true` to enable icon-based rendering, `false` to show text only. Must be explicitly set.
+  - `use_icons` – `true` to enable icon-based rendering, `false` to show text only. (default: false).
 
-### 🧠 NBA Team Logo Mapping
+### 🏀 NBA Team Logo Mapping
 
 - NBA event titles must be formatted like:  
   ```plaintext
@@ -123,3 +202,4 @@ const fetchCalendar = () => {
   https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css
   ```
 - `moment.js` is required and used for all date manipulation and formatting.
+
