@@ -283,12 +283,14 @@ Module.register("MMM-homecal", {
         maximumNumberOfDays = sender.config.maximumNumberOfDays;
         this.calendarEvents = payload.reduce((acc, event) => {
           acc[event.calendarName] = acc[event.calendarName] || [];
-          const cal = sender.config.calendars.find(cal => cal.name === event.calendarName);
-        
+          
+          // attach the location and icon config to the event so it can be handled later
+          const homecal = this.config.calendars.find(cal => cal.name === event.calendarName);
+          
           const expand_event = {
             ...event,
-            cal_location: Object.prototype.hasOwnProperty.call(cal, 'cal_location') ? cal.cal_location : "middle",
-            use_icons:  Object.prototype.hasOwnProperty.call(cal, 'use_icons') ? cal.use_icons : false,
+            cal_location: homecal ? homecal.cal_location : "middle",
+            use_icons: homecal ? homecal.use_icons: false,
           };
 
           acc[event.calendarName].push(expand_event);
